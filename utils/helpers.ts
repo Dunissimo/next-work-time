@@ -1,5 +1,8 @@
 // Gets time in format "hh:mm"
 // returns in minutes
+
+import { IData, IDataItem } from "./types";
+
 // E.g: "01:25" => 85
 export const parseTimeAndConvertToMinutes = (time: string): number => {
     const splittedTime = time.split(":");
@@ -27,4 +30,58 @@ export const formatMoney = (value: number): string => {
         style: "currency",
         currency: "RUB",
     }).format(value);
+};
+
+export const calcData = (data: IDataItem) => {
+    let totalTime = 0;
+    let totalMoney = 0;
+    let totalQuota = 0;
+
+    let timePerDate = 0;
+    let moneyPerDate = 0;
+
+    for (let i = 0; i < data.length; i += 2) {
+        const time = parseTimeAndConvertToMinutes(data[i]);
+        const price = +data[i + 1];
+
+        totalTime += time;
+        timePerDate += time;
+
+        const sum = Math.floor(time * (price / 60));
+
+        totalMoney += sum;
+        moneyPerDate += sum;
+    }
+
+    const quota = totalTime - 360;
+    const formattedQuota = convertToFormat(Math.abs(quota));
+    totalQuota += quota;
+
+    return {
+        totalQuota,
+        totalTime,
+        totalMoney,
+        formattedQuota,
+    };
+};
+
+export const calcAllData = (data: IData) => {
+    let totalTime = 0;
+    let totalMoney = 0;
+    let totalQuota = 0;
+
+    for (const key in data) {
+        const { totalQuota: quota, totalMoney: money, totalTime: time } = calcData(data[key]);
+
+        totalMoney += money;
+        totalQuota += quota;
+        totalTime += time;
+    }
+
+    return {
+        totalMoney,
+        totalQuota,
+        totalTime,
+        formattedQuota: convertToFormat(Math.abs(totalQuota)),
+    };
 };

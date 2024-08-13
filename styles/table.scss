@@ -1,0 +1,103 @@
+/*	
+    Table Responsive
+    ===================
+    Author: https://github.com/pablorgarcia
+    Edit by: https://github.com/dunissimo
+*/
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color: #a7a1ae;
+    background-color: #1f2739;
+}
+
+.container {
+    text-align: left;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+
+    tbody,
+    tfoot {
+        tr {
+            border-bottom: 2px solid rgb(21, 21, 21);
+        }
+
+        & tr:last-child {
+            border-bottom: none;
+        }
+    }
+
+    tfoot {
+        td {
+            background: #40444d;
+            color: #d6caca;
+        }
+    }
+
+    tbody {
+        tr:nth-child(odd) {
+            background-color: #323c50;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2c3446;
+        }
+
+        td:first-child,
+        tr:first-child td:first-child {
+            color: #fb667a;
+        }
+    }
+
+    td,
+    th {
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+    }
+
+    th {
+        background-color: #1f2739;
+    }
+
+    tr {
+        &:hover {
+            background-color: #464a52;
+            -webkit-box-shadow: 0 6px 6px -6px #0e1119;
+            -moz-box-shadow: 0 6px 6px -6px #0e1119;
+            box-shadow: 0 6px 6px -6px #0e1119;
+        }
+    }
+
+    td {
+        font-weight: normal;
+        font-size: 1em;
+        -webkit-box-shadow: 0 2px 2px -2px #0e1119;
+        -moz-box-shadow: 0 2px 2px -2px #0e1119;
+        box-shadow: 0 2px 2px -2px #0e1119;
+
+        border-right: 2px solid rgb(21, 21, 21);
+
+        &:hover {
+            background-color: #fff842;
+            color: #403e10;
+            text-shadow: 0 0 0 black, 0 0 0 black, 0 0 0 black;
+
+            transition-delay: 0s;
+            transition-duration: 0.4s;
+            transition-property: all;
+            transition-timing-function: line;
+
+            box-shadow: #7f7c21 -1px 1px, #7f7c21 -2px 2px, #7f7c21 -3px 3px, #7f7c21 -4px 4px,
+                #7f7c21 -5px 5px, #7f7c21 -6px 6px;
+            transform: translate3d(6px, -6px, 0);
+        }
+    }
+}
