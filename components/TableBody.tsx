@@ -13,13 +13,11 @@ export default function TableBody({ data }: ITableBodyProps) {
 
                 return (
                     <tr key={key}>
-                        <td data-text={key}>{key}</td>
-                        <td data-text={convertToFormat(totalTime)}>{convertToFormat(totalTime)}</td>
-                        <td data-text={formatMoney(totalMoney)}>{formatMoney(totalMoney)}</td>
-                        <td data-text={totalQuota >= 0 ? formattedQuota : `-${formattedQuota}`}>
-                            {totalQuota >= 0 ? formattedQuota : `-${formattedQuota}`}
-                        </td>
-                        <td></td>
+                        <td>{key}</td>
+                        <td>{convertToFormat(totalTime)}</td>
+                        <td>{formatMoney(totalMoney)}</td>
+                        <td>{totalQuota >= 0 ? formattedQuota : `-${formattedQuota}`}</td>
+                        <td>{formatMoney(+totalMoney / (totalTime / 60))}</td>
                     </tr>
                 );
             })}
