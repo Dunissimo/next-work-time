@@ -8,6 +8,10 @@ interface ITableFootProps {
 export default function TableFoot({ data }: ITableFootProps) {
     const { totalQuota, formattedQuota, totalMoney, totalTime } = calcAllData(data);
 
+    if (!Object.values(data).length) {
+        return null;
+    }
+
     return (
         <tfoot>
             <tr>

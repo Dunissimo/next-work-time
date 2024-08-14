@@ -6,6 +6,19 @@ interface ITableBodyProps {
 }
 
 export default function TableBody({ data }: ITableBodyProps) {
+    if (!Object.values(data).length) {
+        return (
+            <tbody>
+                <tr>
+                    <td colSpan={5} className="custom text-center !text-xl">
+                        Произошла ошибка! <br />
+                        Не удалось загрузить данные
+                    </td>
+                </tr>
+            </tbody>
+        );
+    }
+
     return (
         <tbody>
             {Object.entries(data).map(([key, value]) => {

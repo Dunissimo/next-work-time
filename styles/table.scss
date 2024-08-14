@@ -85,7 +85,7 @@ body {
 
         border-right: 2px solid rgb(21, 21, 21);
 
-        &:hover {
+        &:not(.custom):hover {
             background-color: #fff842;
             color: #403e10;
             text-shadow: 0 0 0 black, 0 0 0 black, 0 0 0 black;
