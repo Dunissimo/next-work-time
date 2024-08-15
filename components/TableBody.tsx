@@ -1,4 +1,4 @@
-import { calcData, convertToFormat, formatMoney } from "@/utils/helpers";
+import { calcData, convertToFormat, formatMoney, formatQuota } from "@/utils/helpers";
 import { IData } from "@/utils/types";
 
 interface ITableBodyProps {
@@ -22,15 +22,15 @@ export default function TableBody({ data }: ITableBodyProps) {
     return (
         <tbody>
             {Object.entries(data).map(([key, value]) => {
-                const { totalQuota, formattedQuota, totalMoney, totalTime } = calcData(value);
+                const { totalQuota, totalMoney, totalTime } = calcData(value);
 
                 return (
                     <tr key={key}>
                         <td>{key}</td>
                         <td>{convertToFormat(totalTime)}</td>
                         <td>{formatMoney(totalMoney)}</td>
-                        <td>{totalQuota >= 0 ? formattedQuota : `-${formattedQuota}`}</td>
-                        <td>{formatMoney(+totalMoney / (totalTime / 60))}</td>
+                        <td>{formatQuota(totalQuota)}</td>
+                        <td>{formatMoney(totalMoney / (totalTime / 60))}</td>
                     </tr>
                 );
             })}

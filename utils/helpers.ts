@@ -85,3 +85,13 @@ export const calcAllData = (data: IData) => {
         formattedQuota: convertToFormat(Math.abs(totalQuota)),
     };
 };
+
+export const formatQuota = (quota: number): string => {
+    if (quota > 0) {
+        return `+${convertToFormat(Math.abs(quota))}`;
+    } else if (quota < 0) {
+        return `-${convertToFormat(Math.abs(quota))}`;
+    } else {
+        return convertToFormat(Math.abs(quota));
+    }
+};
