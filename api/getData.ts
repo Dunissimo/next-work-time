@@ -1,9 +1,16 @@
+import { API_URL } from "@/utils/consts";
 import { IData } from "@/utils/types";
 
 export const getData = async (): Promise<IData> => {
-    const { default: data } = await (process.env.NODE_ENV === "development"
-        ? import("../data.json", { assert: { type: "json" } })
-        : import("../data.example.json", { assert: { type: "json" } }));
+    if (process.env.NODE_ENV === "development") {
+        return getDataFromNpoint();
+    }
 
-    return data;
+    return getDataFromNpoint("https://api.npoint.io/2333dc1e1d95de6b56a5");
+};
+
+const getDataFromNpoint = async (url?: string) => {
+    const data = await fetch(url || API_URL || "");
+
+    return data.json();
 };

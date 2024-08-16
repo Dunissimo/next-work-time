@@ -2,6 +2,7 @@
 
 data.json
 .vscode
+.env 
 
 # dependencies
 /node_modules

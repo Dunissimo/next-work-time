@@ -10,11 +10,20 @@ import "@/styles/table.scss";
 
 export default function Table() {
     const [timeData, setData] = useState<IData>({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
+
         getData()
-            .then((data) => setData(data))
-            .catch(() => console.error("Error while fetching data"));
+            .then((data) => {
+                setData(data);
+                setLoading(false);
+            })
+            .catch(() => {
+                setLoading(false);
+                console.error("Error while fetching data");
+            });
     }, [setData]);
 
     return (
@@ -28,9 +37,20 @@ export default function Table() {
                     <th>Средняя за час</th>
                 </tr>
             </thead>
-
-            <TableBody data={timeData} />
-            <TableFoot data={timeData} />
+            {loading ? (
+                <tbody>
+                    <tr>
+                        <td colSpan={5} className="!text-gray-300 text-center">
+                            LOADING
+                        </td>
+                    </tr>
+                </tbody>
+            ) : (
+                <>
+                    <TableBody data={timeData} />
+                    <TableFoot data={timeData} />
+                </>
+            )}
         </table>
     );
 }
