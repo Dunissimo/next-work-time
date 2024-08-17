@@ -2,7 +2,7 @@ services:
     - type: web
       name: work-time-next
       runtime: static
-      buildCommand: npm; npm run build
+      buildCommand: npm install; npm run build
       staticPublishPath: out
       pullRequestPreviewsEnabled: true # optional
       envVars:
