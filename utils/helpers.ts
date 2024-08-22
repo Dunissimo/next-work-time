@@ -1,9 +1,8 @@
-// Gets time in format "hh:mm"
-// returns in minutes
-
 import { BASE_QUOTA_TIME } from "./consts";
 import { IData, IDataItem } from "./types";
 
+// Gets time in format "hh:mm"
+// returns in minutes
 // E.g: "01:25" => 85
 export const parseTimeAndConvertToMinutes = (time: string): number => {
     const splittedTime = time.split(":");
