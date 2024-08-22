@@ -1,6 +1,7 @@
 // Gets time in format "hh:mm"
 // returns in minutes
 
+import { BASE_QUOTA_TIME } from "./consts";
 import { IData, IDataItem } from "./types";
 
 // E.g: "01:25" => 85
@@ -15,12 +16,9 @@ export const parseTimeAndConvertToMinutes = (time: string): number => {
 // Gets time in minutes
 // returns in format "hh:mm"
 // E.g: 85 => "01:25"
-export const convertToFormat = (number: number): string => {
-    const tempHours = Math.trunc(number / 60);
-    const hours = tempHours >= 10 ? tempHours : `0${tempHours}`;
-
-    const tempMinutes = number % 60;
-    const minutes = tempMinutes >= 10 ? tempMinutes : `0${tempMinutes}`;
+export const convertToFormat = (n: number) => {
+    const hours = String(Math.floor(n / 60)).padStart(2, "0");
+    const minutes = String(n % 60).padStart(2, "0");
 
     return `${hours}:${minutes}`;
 };
@@ -37,61 +35,42 @@ export const calcData = (data: IDataItem) => {
     let totalMoney = 0;
     let totalQuota = 0;
 
-    let timePerDate = 0;
-    let moneyPerDate = 0;
-
     for (let i = 0; i < data.length; i += 2) {
         const time = parseTimeAndConvertToMinutes(data[i]);
         const price = +data[i + 1];
 
         totalTime += time;
-        timePerDate += time;
-
-        const sum = Math.floor(time * (price / 60));
-
-        totalMoney += sum;
-        moneyPerDate += sum;
+        totalMoney += Math.floor(time * (price / 60));
     }
 
-    const quota = totalTime - 360;
-    const formattedQuota = convertToFormat(Math.abs(quota));
-    totalQuota += quota;
+    totalQuota += totalTime - BASE_QUOTA_TIME;
 
     return {
         totalQuota,
         totalTime,
         totalMoney,
-        formattedQuota,
-    };
-};
-
-export const calcAllData = (data: IData) => {
-    let totalTime = 0;
-    let totalMoney = 0;
-    let totalQuota = 0;
-
-    for (const key in data) {
-        const { totalQuota: quota, totalMoney: money, totalTime: time } = calcData(data[key]);
-
-        totalMoney += money;
-        totalQuota += quota;
-        totalTime += time;
-    }
-
-    return {
-        totalMoney,
-        totalQuota,
-        totalTime,
         formattedQuota: convertToFormat(Math.abs(totalQuota)),
     };
 };
 
+export const calcAllData = (data: IData) => {
+    return Object.values(data).reduce(
+        (prev, items) => {
+            const { totalMoney, totalQuota, totalTime } = calcData(items);
+
+            return {
+                totalMoney: prev.totalMoney + totalMoney,
+                totalQuota: prev.totalQuota + totalQuota,
+                totalTime: prev.totalTime + totalTime,
+            };
+        },
+        { totalMoney: 0, totalQuota: 0, totalTime: 0 }
+    );
+};
+
 export const formatQuota = (quota: number): string => {
-    if (quota > 0) {
-        return `+${convertToFormat(Math.abs(quota))}`;
-    } else if (quota < 0) {
-        return `-${convertToFormat(Math.abs(quota))}`;
-    } else {
-        return convertToFormat(Math.abs(quota));
-    }
+    const absQuota = Math.abs(quota);
+    const sign = quota < 0 ? "-" : quota === 0 ? "" : "+";
+
+    return `${sign}${convertToFormat(absQuota)}`;
 };
